@@ -1,24 +1,25 @@
 import React from 'react';
 
-function Card(props) {
+function Card({cardElement, onCardClick, onDeleteCardClick}) {
 
 function handleClick() {
-   props.onCardClick(props.card);
+   onCardClick(cardElement);
 }  
 
 function handleDeleteCardClick() {
-    props.onDeleteCardClick(props.card);
+    onDeleteCardClick(cardElement);
  }  
     
   return (
-    <li className="element"  key={props.cardId}>
-        <div className="element__image" style={{ backgroundImage: `url(${props.cardImage})` }} onClick={handleClick}></div>
+    <li className="element" >
+        <div className="element__image" style={{ backgroundImage: `url(${cardElement.link})` }} onClick={handleClick}></div>
         <button type="button" className="element__delete-button button button_type_l-opacity" onClick={handleDeleteCardClick}></button>
         <div className="element__info">
-        <h2 className="element__title">{props.cardName}</h2>
-        <div><button type="button" className="element__like-button button button_type_l-opacity"></button>
-        <div className="element__number-of-likes">{props.cardLikes.length}</div>
-        </div>
+          <h2 className="element__title">{cardElement.name}</h2>
+          <div>
+            <button type="button" className="element__like-button button button_type_l-opacity"></button>
+            <div className="element__number-of-likes">{cardElement.likes.length}</div>
+          </div>
         </div>
     </li>
   );

@@ -14,13 +14,12 @@ React.useEffect(() => {
       setUserName(userData.name);
       setUserAvatar(userData.avatar);
       setDescription(userData.about);
-    });
+    }).catch((err) => console.log(err));
 
     api.getCards().then((cardData) => {
       setCards(cardData);
-    });
+    }).catch((err) => console.log(err));
   }, []);
-  
 
 return (
 <div>
@@ -28,7 +27,7 @@ return (
     <section className="profile">
       <div className="profile__info">
         <div className="profile__avatar-common">
-          <img style={{ backgroundImage: `url(${userAvatar})` }} className="profile__avatar" alt="Фотография Жак-Ив Кусто" />
+          <img style={{ backgroundImage: `url(${userAvatar})` }} className="profile__avatar" alt="" />
           <button type="button" className="profile__edit-photo button" onClick={props.onEditAvatar}></button>
         </div>
         <div className="profile__user-info">
@@ -46,8 +45,12 @@ return (
      {
           cards.map((card) => {
             return (
-              <Card card={card} cardId={card._id} cardImage={card.link} cardName={card.name} cardLikes={card.likes} onCardClick={props.onCardClick} onDeleteCardClick={props.onDeleteClick} />
-            )
+              <Card 
+                  key ={card._id}
+                  cardElement={card}  
+                  onCardClick={props.onCardClick} 
+                  onDeleteCardClick={props.onDeleteClick} 
+                  />)
           })
         }
      </ul>
