@@ -1,25 +1,14 @@
 import React from 'react';
-import api from './../utils/API';
-import Card from './Card'
+import Card from './Card';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main(props) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const cards = props.cards
 
-const [cards, setCards] = React.useState([]);
-const [userName, setUserName] = React.useState('');
-const [userAvatar, setUserAvatar] = React.useState('');
-const [userDescription, setDescription] = React.useState('');
-
-React.useEffect(() => {
-    api.getInfo().then((userData) => {
-      setUserName(userData.name);
-      setUserAvatar(userData.avatar);
-      setDescription(userData.about);
-    }).catch((err) => console.log(err));
-
-    api.getCards().then((cardData) => {
-      setCards(cardData);
-    }).catch((err) => console.log(err));
-  }, []);
+  function handleCardLike(card) {
+    props.onLikeClick(card);
+  }
 
 return (
 <div>
@@ -27,15 +16,15 @@ return (
     <section className="profile">
       <div className="profile__info">
         <div className="profile__avatar-common">
-          <img style={{ backgroundImage: `url(${userAvatar})` }} className="profile__avatar" alt="" />
+          <img style={{ backgroundImage: `url(${currentUser.avatar})` }} className="profile__avatar" alt="" />
           <button type="button" className="profile__edit-photo button" onClick={props.onEditAvatar}></button>
         </div>
         <div className="profile__user-info">
           <div className="profile__name-edit">
-            <h1 className="profile__username">{userName}</h1>
+            <h1 className="profile__username">{currentUser.name}</h1>
             <button type="button" className="profile__edit-button button button_type_m-opacity" onClick={props.onEditProfile}></button>
           </div>
-          <p className="profile__user-description">{userDescription}</p>
+          <p className="profile__user-description">{currentUser.about}</p>
         </div>
       </div>
       <button type="button" className="profile__add-button button button_type_m-opacity" onClick={props.onAddPlace}></button>
@@ -50,6 +39,7 @@ return (
                   cardElement={card}  
                   onCardClick={props.onCardClick} 
                   onDeleteCardClick={props.onDeleteClick} 
+                  onLikeClick={handleCardLike}
                   />)
           })
         }

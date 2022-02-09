@@ -60,16 +60,16 @@ class Api {
         }).then(res => this._checkStatus(res))
     }
 
-    deleteTask(_id) {
+    deleteCard(_id) {
         return fetch(`${this._url}cards/${_id}`, {
             method: "DELETE",
             headers: this._headers,
         }).then(res => this._checkStatus(res))
     }
 
-    toggleLike(_id, like) {
+    toggleLike(_id, isLiked) {
         return fetch(`${this._url}cards/likes/${_id}`, {
-          method: like ? 'PUT' : 'DELETE',
+          method: isLiked ? 'PUT' : 'DELETE',
           headers: this._headers,
         }).then(res => this._checkStatus(res))
     }
