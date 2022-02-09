@@ -23,20 +23,20 @@ React.useEffect(() => {
     api.getCards().then((cardData) => {
       setCards(cardData);
     }).catch((err) => console.log(err));
-  }, []);
+  }, [setCards]);
 
 function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.toggleLike(card._id, !isLiked).then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    });
+    }).catch((err) => console.log(err));
 } 
 
 React.useEffect(() => {
   api.getInfo().then((userData) => {
     setCurrentUser(userData);
   }).catch((err) => console.log(err));
-}, []);
+}, [setCurrentUser]);
 
 function handleCardClick (card) {
   setselectedCard(card);
@@ -49,7 +49,7 @@ function handleEditProfileClick() {
 function handleDeleteClick(_id) {
   api.deleteCard(_id).then(() => {
     setCards((state) => state.filter(item => item._id !== _id));
-  })
+  }).catch((err) => console.log(err));
 }
 
 function handleAddPlaceClick() {
@@ -91,14 +91,10 @@ function handleUpdateAvatar({avatar}) {
 }
 
 function handleAddPlaceSubmit({name, link}) {
-  const newCard =[
-    name, 
-    link
-  ]
-  api.addCard({name, link}).then(() => {
-    setCards([newCard, ...cards]); 
-  })
-}
+  api.addCard({name, link}).then((newCard) => {
+    setCards([newCard, ...cards]);
+    closeAllPopups();
+  }).catch((err) => console.log(err))}
 
 return (
   <div className="page__content">
