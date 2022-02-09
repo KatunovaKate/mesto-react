@@ -48,7 +48,7 @@ function handleEditProfileClick() {
 
 function handleDeleteClick(_id) {
   api.deleteCard(_id).then(() => {
-    setCards((state) => state.filter(_id));
+    setCards((state) => state.filter(item => item._id !== _id));
   })
 }
 
